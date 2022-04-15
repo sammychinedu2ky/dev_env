@@ -1,0 +1,183 @@
+"""
+Types for `cohortplayers`
+"""
+type CohortsPlayers {
+	cohortplayerid: ID!
+	playerid: Int
+	cohortid: Int
+	types: String!
+}
+
+"""
+Types for `cohorts`
+"""
+type Cohort {
+    cohortid: ID!
+    name: String!
+    date:Time
+    at_sku: Int
+    at_id: String
+    status: String
+    zoom: String
+    game: String!
+    level: Int
+    imported_students: Int!
+    start_date: Time
+    end_date: Time
+    mapaccess: Int!
+    record: Int!
+    event_id: String
+}
+
+"""
+Types for `cohort_setup_permissions`
+"""
+type CohortSetupPermissions {
+	cohortid: ID!
+	simulationid: Int!
+}
+
+"""
+Type for `games`
+"""
+type Games {
+	gameid: ID!
+	gametype: String
+	mapid: Int!
+	name: String!
+	datetime: Time
+	token: String!
+	rounds: Int!
+	teams: Int!
+	roundlength: Int!
+	mtime: Float!
+	currentround: Int
+	distance_weight: Float!
+	number_weight: Float!
+	longest_weight: Float!
+	longest_hq_weight: Float!
+	multimove: Int!
+	templateid: Int
+	cohortid: Int!
+	active: Int!
+	current: Int!
+	opts: String
+	stealcount: Int!
+	record: Int!
+	ranked: Int!
+}
+
+"""
+Type for `nots`
+"""
+type Nots {
+	notid: ID!
+	playerid: Int!
+	cohortid: Int!
+	tag: String!
+	subtag: String
+	timestamp: Time
+}
+
+"""
+Type for `players`
+"""
+type Players {
+	playerid: ID!
+	cohortid: ID!
+	name: String!
+	email: String!
+	age: Int!
+	dob: Time
+	username: String!
+	password: String
+	admin: Int!
+	order: Int!
+	reset_token: String!
+	password_sent: Time
+	last_login: Time!
+	timezone: String!
+	at_id: String
+	hashed_password: String
+	start_date: Time
+	user_id: String
+}
+
+
+"""
+Type for `simulations`
+"""
+type Simulations {
+	simulationid: ID!
+	name: String!
+	game_url: String!
+	setup_url: String!
+	env: String!
+	configvar: String!
+	field_mapping: String!
+}
+
+"""
+Type for `teamplayers`
+"""
+type TeamPlayers {
+	id: ID!
+	teamid: ID!
+	playerid: ID!
+	active: Int!
+}
+
+
+"""
+Type for `teams`
+"""
+type Teams {
+  teamid: ID!
+  gameid: ID!
+  color: String!
+  token: String!
+  hassteal: Int!
+  longest: Int!
+}
+
+"""
+Type for `GameRepository`
+
+"""
+type GameRepository {
+	gameid: ID!
+	token: String!
+	color: String!
+	gametype: String
+	teamid: ID!
+}
+
+"""
+type for StarsSimulation
+"""
+type StarsSimulation {
+	id: ID!
+	name: String!
+	gameUrl: String!
+	setupUrl: String!
+	env: String!
+	configvar: String!
+	fieldMapping: String!
+}
+
+
+"""
+Query
+"""
+type Query {
+	playersFromId(playerid: ID!): Players
+	playersFromUserName(username: String!): Players
+	players: [Players]
+	cohorts: [Cohort]
+	cohortsFromId(cohortid: ID!): Cohort
+	simulations: [Simulations]
+	gameRepository(cohortid: ID!,playerid: ID!): GameRepository
+	starsSimulation(playerid:ID!): StarsSimulation
+}
+
+scalar Time

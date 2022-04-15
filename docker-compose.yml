@@ -1,0 +1,15 @@
+version: "2.2.3"
+services:
+  web:
+    image: samson2ky/godev
+    ports:
+      - 3000:3000
+    volumes:
+      - ./:/app
+
+  db:
+    image: samson2ky/testdb
+    ports:
+      - 3306:3306
+    volumes:
+      - ./data:/var/lib/mysql
