@@ -15,30 +15,41 @@ import (
 
 func (r *queryResolver) PlayersFromID(ctx context.Context, playerid string) (*model.Players, error) {
 	//panic(fmt.Errorf("not implemented"))
-	var players model.Players
-	err := r.Db.QueryRow("select username from players where playerid = ?", playerid).Scan(&players.Username)
+	var player model.Players
+	query := "SELECT admin,age,at_id,cohortid,dob,email,hashed_password,last_login,name,players.order,password,password_sent,playerid,reset_token,start_date,timezone,user_id,username FROM players where playerid = ?"
+
+	err := r.Db.QueryRow(query, playerid).Scan(&player.Admin, &player.Age, &player.AtID, &player.Cohortid, &player.Dob,
+		&player.Email, &player.HashedPassword, &player.LastLogin, &player.Name, &player.Order,
+		&player.Password, &player.PasswordSent, &player.Playerid, &player.ResetToken,
+		&player.StartDate, &player.Timezone, &player.UserID, &player.Username)
 	if err != nil {
 		graphql.AddError(ctx, gqlerror.Errorf(err.Error()))
 	}
 
-	return &players, nil
+	return &player, nil
 }
 
 func (r *queryResolver) PlayersFromUserName(ctx context.Context, username string) (*model.Players, error) {
 	//panic(fmt.Errorf("not implemented"))
-	var players model.Players
-	err := r.Db.QueryRow("select username from players where playerid = ?", username).Scan(&players.Username)
+	var player model.Players
+	query := "SELECT admin,age,at_id,cohortid,dob,email,hashed_password,last_login,name,players.order,password,password_sent,playerid,reset_token,start_date,timezone,user_id,username FROM players where playerid = ?"
+
+	err := r.Db.QueryRow(query, username).Scan(&player.Admin, &player.Age, &player.AtID, &player.Cohortid, &player.Dob,
+		&player.Email, &player.HashedPassword, &player.LastLogin, &player.Name, &player.Order,
+		&player.Password, &player.PasswordSent, &player.Playerid, &player.ResetToken,
+		&player.StartDate, &player.Timezone, &player.UserID, &player.Username)
 	if err != nil {
 		graphql.AddError(ctx, gqlerror.Errorf(err.Error()))
 	}
 
-	return &players, nil
+	return &player, nil
 }
 
 func (r *queryResolver) Players(ctx context.Context) ([]*model.Players, error) {
 	//panic(fmt.Errorf("not implemented"))
 	players := []*model.Players{}
-	res, err := r.Db.Query("SELECT admin,age,at_id,cohortid,dob,email,hashed_password,last_login,name,players.order,password,password_sent,playerid,reset_token,start_date,timezone,user_id,username FROM players")
+	query := "SELECT admin,age,at_id,cohortid,dob,email,hashed_password,last_login,name,players.order,password,password_sent,playerid,reset_token,start_date,timezone,user_id,username FROM players"
+	res, err := r.Db.Query(query)
 	if err != nil {
 		graphql.AddError(ctx, gqlerror.Errorf(err.Error()))
 	}
