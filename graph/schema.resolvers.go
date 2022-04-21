@@ -13,11 +13,6 @@ import (
 	"github.com/vektah/gqlparser/gqlerror"
 )
 
-func Calculate(x int) (result int) {
-	result = x + 2
-	return result
-}
-
 func (r *queryResolver) PlayersFromID(ctx context.Context, playerid string) (*model.Players, error) {
 	//panic(fmt.Errorf("not implemented"))
 	var player model.Players
