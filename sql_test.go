@@ -57,6 +57,16 @@ type Simulations struct {
 	Field_mapping graphql.String
 }
 
+type StarSimulations struct {
+	Id           graphql.ID
+	Name         graphql.String
+	GameUrl      graphql.String
+	SetupUrl     graphql.String
+	Env          graphql.String
+	Configvar    graphql.String
+	FieldMapping graphql.String
+}
+
 func TestPlayersFromID(t *testing.T) {
 	client := graphql.NewClient("http://localhost:3000/query", nil)
 	var q struct {
@@ -406,5 +416,39 @@ func TestSimulations(t *testing.T) {
 	if q.Simulations[0] == simulation1 && q.Simulations[1] == simulation2 {
 	} else {
 		t.Error("Error! Expected value is ", simulation1, simulation2)
+	}
+}
+
+func TestStarsSimulations(t *testing.T) {
+	client := graphql.NewClient("http://localhost:3000/query", nil)
+	var q struct {
+		StarsSimulation struct {
+			Id           graphql.ID
+			Name         graphql.String
+			GameUrl      graphql.String
+			SetupUrl     graphql.String
+			Env          graphql.String
+			Configvar    graphql.String
+			FieldMapping graphql.String
+		} `graphql:"starsSimulation(playerid: \"1\")"`
+	}
+	err := client.Query(context.Background(), &q, nil)
+	starSimulation1 := StarSimulations{
+		"5",
+		"Melvin",
+		"https://FSC57LJD8LF.in",
+		"https://DHU88PMH5JN.eu",
+		"82OIHY45BWU1IL",
+		"B9DVCX934M3",
+		"oywvgmuf",
+	}
+	if err != nil {
+		fmt.Println(err)
+		t.Error("Error! Expected value is ", starSimulation1)
+		return
+	}
+	if q.StarsSimulation == starSimulation1 {
+	} else {
+		t.Error("Error! Expected value is ", starSimulation1)
 	}
 }
