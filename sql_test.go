@@ -67,13 +67,13 @@ type StarSimulations struct {
 	FieldMapping graphql.String
 }
 
-// type GameRepositories struct {
-// 	Gameid   graphql.ID
-// 	Token    graphql.String
-// 	Color    graphql.String
-// 	Gametype graphql.String
-// 	Teamid   graphql.ID
-// }
+type GameRepositories struct {
+	Gameid   graphql.ID
+	Token    graphql.String
+	Color    graphql.String
+	Gametype graphql.String
+	Teamid   graphql.ID
+}
 
 func TestPlayersFromID(t *testing.T) {
 	client := graphql.NewClient("http://localhost:3000/query", nil)
@@ -459,32 +459,29 @@ func TestStarsSimulations(t *testing.T) {
 	}
 }
 
-// func TestGameRepository(t *testing.T) {
-// 	client := graphql.NewClient("http://localhost:3000/query", nil)
-// 	var q struct {
-// 		GameRepository struct {
-// 			Gameid   graphql.ID
-// 			Token    graphql.String
-// 			Color    graphql.String
-// 			Gametype graphql.String
-// 			Teamid   graphql.ID
-// 		} `graphql:"gameRepository(playerid: \"1\",cohortid: \"1\")"`
-// 	}
-// 	err := client.Query(context.Background(), &q, nil)
-// 	gameRepository1 := GameRepositories{
-// 		"5",
-// 		"Melvin",
-// 		"https://FSC57LJD8LF.in",
-// 		"https://DHU88PMH5JN.eu",
-// 		"2",
-// 	}
-// 	if err != nil {
-// 		fmt.Println(err)
-// 		t.Error("Error! Expected value is ", gameRepository1)
-// 		return
-// 	}
-// 	if q.GameRepository == gameRepository1 {
-// 	} else {
-// 		t.Error("Error! Expected value is ", gameRepository1)
-// 	}
-// }
+func TestGameRepository(t *testing.T) {
+	client := graphql.NewClient("http://localhost:3000/query", nil)
+	var q struct {
+		GameRepository struct {
+			Gameid   graphql.ID
+			Token    graphql.String
+			Color    graphql.String
+			Gametype graphql.String
+			Teamid   graphql.ID
+		} `graphql:"gameRepository(playerid: \"1\",cohortid: \"1\")"`
+	}
+	err := client.Query(context.Background(), &q, nil)
+	gameRepository1 := GameRepositories{
+		"",
+		"",
+		"",
+		"",
+		"",
+	}
+	if err != nil {
+	}
+	if q.GameRepository == gameRepository1 {
+	} else {
+		t.Error("Error! Expected value is ", gameRepository1)
+	}
+}
