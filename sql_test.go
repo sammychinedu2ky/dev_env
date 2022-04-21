@@ -47,6 +47,16 @@ type Cohorts struct {
 	Event_id          graphql.String
 }
 
+type Simulations struct {
+	Simulationid  graphql.ID
+	Name          graphql.String
+	Game_url      graphql.String
+	Setup_url     graphql.String
+	Env           graphql.String
+	Configvar     graphql.String
+	Field_mapping graphql.String
+}
+
 func TestPlayersFromID(t *testing.T) {
 	client := graphql.NewClient("http://localhost:3000/query", nil)
 	var q struct {
@@ -353,5 +363,48 @@ func TestCohortsFromId(t *testing.T) {
 	if q.CohortsFromId == cohort1 {
 	} else {
 		t.Error("Error! Expected value is ", cohort1)
+	}
+}
+
+func TestSimulations(t *testing.T) {
+	client := graphql.NewClient("http://localhost:3000/query", nil)
+	var q struct {
+		Simulations []struct {
+			Simulationid  graphql.ID
+			Name          graphql.String
+			Game_url      graphql.String
+			Setup_url     graphql.String
+			Env           graphql.String
+			Configvar     graphql.String
+			Field_mapping graphql.String
+		} `graphql:"simulations"`
+	}
+	err := client.Query(context.Background(), &q, nil)
+	simulation1 := Simulations{
+		"1",
+		"Gavin",
+		"https://OZS51GPN2RF.in",
+		"https://LER11DIC2LO.eu",
+		"77SKWQ24EDX3EG",
+		"Q8OEJT371G9",
+		"sczixcnh",
+	}
+	simulation2 := Simulations{
+		"2",
+		"Troy",
+		"https://UWP39GIQ8GY.in",
+		"https://MDQ06HPL7ZB.eu",
+		"16NVBT54YBB1PN",
+		"T5MLOE711P7",
+		"ftvcgdne",
+	}
+	if err != nil {
+		fmt.Println(err)
+		t.Error("Error! Expected value is ", simulation1, simulation2)
+		return
+	}
+	if q.Simulations[0] == simulation1 && q.Simulations[1] == simulation2 {
+	} else {
+		t.Error("Error! Expected value is ", simulation1, simulation2)
 	}
 }
