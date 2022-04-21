@@ -305,3 +305,53 @@ func TestCohorts(t *testing.T) {
 		t.Error("Error! Expected value is ", cohort1, cohort2)
 	}
 }
+
+func TestCohortsFromId(t *testing.T) {
+	client := graphql.NewClient("http://localhost:3000/query", nil)
+	var q struct {
+		CohortsFromId struct {
+			Cohortid          graphql.ID
+			Name              graphql.String
+			Date              graphql.String
+			At_sku            graphql.Int
+			At_id             graphql.String
+			Status            graphql.String
+			Zoom              graphql.String
+			Game              graphql.String
+			Level             graphql.Int
+			Imported_students graphql.Int
+			Start_date        graphql.String
+			End_date          graphql.String
+			Mapaccess         graphql.Int
+			Record            graphql.Int
+			Event_id          graphql.String
+		} `graphql:"cohortsFromId(cohortid: \"1\")"`
+	}
+	err := client.Query(context.Background(), &q, nil)
+	cohort1 := Cohorts{
+		"1",
+		"Brynne",
+		"",
+		13,
+		"abp",
+		"incomplete",
+		"no",
+		"porttitor",
+		8,
+		1,
+		"2021-04-21T13:03:30Z",
+		"2021-11-30T04:11:51Z",
+		1,
+		10,
+		"IDX_307e69e06a2315f03bdc9b3fec",
+	}
+	if err != nil {
+		fmt.Println(err)
+		t.Error("Error! Expected value is ", cohort1)
+		return
+	}
+	if q.CohortsFromId == cohort1 {
+	} else {
+		t.Error("Error! Expected value is ", cohort1)
+	}
+}
