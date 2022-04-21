@@ -13,6 +13,11 @@ import (
 	"github.com/vektah/gqlparser/gqlerror"
 )
 
+func Calculate(x int) (result int) {
+	result = x + 2
+	return result
+}
+
 func (r *queryResolver) PlayersFromID(ctx context.Context, playerid string) (*model.Players, error) {
 	//panic(fmt.Errorf("not implemented"))
 	var player model.Players
@@ -148,7 +153,7 @@ func (r *queryResolver) StarsSimulation(ctx context.Context, playerid string) (*
 	query := "select s.configvar,s.env,s.field_mapping,s.game_url as gameUrl,s.simulationid as id,s.name,s.setup_url as setupurl from stars.cohortplayers cp join stars.cohort_setup_permissions csp using(cohortid) join stars.simulations s using(simulationid) where cp.playerid=? group by s.simulationid;"
 	var starsSimulation model.StarsSimulation
 
-	err := r.Db.QueryRow(query, playerid).Scan(&starsSimulation.Configvar,&starsSimulation.Env,&starsSimulation.FieldMapping,&starsSimulation.GameURL,&starsSimulation.ID,&starsSimulation.Name,&starsSimulation.SetupURL)
+	err := r.Db.QueryRow(query, playerid).Scan(&starsSimulation.Configvar, &starsSimulation.Env, &starsSimulation.FieldMapping, &starsSimulation.GameURL, &starsSimulation.ID, &starsSimulation.Name, &starsSimulation.SetupURL)
 	if err != nil {
 		graphql.AddError(ctx, gqlerror.Errorf(err.Error()))
 	}
