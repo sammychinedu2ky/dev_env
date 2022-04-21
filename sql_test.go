@@ -67,6 +67,14 @@ type StarSimulations struct {
 	FieldMapping graphql.String
 }
 
+// type GameRepositories struct {
+// 	Gameid   graphql.ID
+// 	Token    graphql.String
+// 	Color    graphql.String
+// 	Gametype graphql.String
+// 	Teamid   graphql.ID
+// }
+
 func TestPlayersFromID(t *testing.T) {
 	client := graphql.NewClient("http://localhost:3000/query", nil)
 	var q struct {
@@ -145,7 +153,7 @@ func TestPlayersFromUserName(t *testing.T) {
 			Hashed_password graphql.String
 			Start_date      graphql.String
 			User_id         graphql.String
-		} `graphql:"playersFromId(playerid: \"lwgj_45\")"`
+		} `graphql:"playersFromUserName(username: \"lwgj_45\")"`
 	}
 	err := client.Query(context.Background(), &q, nil)
 	player1 := Players{
@@ -246,8 +254,6 @@ func TestPlayers(t *testing.T) {
 		"2022-02-02T15:15:04Z",
 		"3",
 	}
-
-	fmt.Println(q.Players[0])
 	if err != nil {
 		fmt.Println(err)
 		t.Error("Error! Expected value is ", player1, player2)
@@ -452,3 +458,33 @@ func TestStarsSimulations(t *testing.T) {
 		t.Error("Error! Expected value is ", starSimulation1)
 	}
 }
+
+// func TestGameRepository(t *testing.T) {
+// 	client := graphql.NewClient("http://localhost:3000/query", nil)
+// 	var q struct {
+// 		GameRepository struct {
+// 			Gameid   graphql.ID
+// 			Token    graphql.String
+// 			Color    graphql.String
+// 			Gametype graphql.String
+// 			Teamid   graphql.ID
+// 		} `graphql:"gameRepository(playerid: \"1\",cohortid: \"1\")"`
+// 	}
+// 	err := client.Query(context.Background(), &q, nil)
+// 	gameRepository1 := GameRepositories{
+// 		"5",
+// 		"Melvin",
+// 		"https://FSC57LJD8LF.in",
+// 		"https://DHU88PMH5JN.eu",
+// 		"2",
+// 	}
+// 	if err != nil {
+// 		fmt.Println(err)
+// 		t.Error("Error! Expected value is ", gameRepository1)
+// 		return
+// 	}
+// 	if q.GameRepository == gameRepository1 {
+// 	} else {
+// 		t.Error("Error! Expected value is ", gameRepository1)
+// 	}
+// }

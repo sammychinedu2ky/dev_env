@@ -32,7 +32,7 @@ func (r *queryResolver) PlayersFromID(ctx context.Context, playerid string) (*mo
 func (r *queryResolver) PlayersFromUserName(ctx context.Context, username string) (*model.Players, error) {
 	//panic(fmt.Errorf("not implemented"))
 	var player model.Players
-	query := "SELECT admin,age,at_id,cohortid,dob,email,hashed_password,last_login,name,players.order,password,password_sent,playerid,reset_token,start_date,timezone,user_id,username FROM players where playerid = ?"
+	query := "SELECT admin,age,at_id,cohortid,dob,email,hashed_password,last_login,name,players.order,password,password_sent,playerid,reset_token,start_date,timezone,user_id,username FROM players where username = ?"
 
 	err := r.Db.QueryRow(query, username).Scan(&player.Admin, &player.Age, &player.AtID, &player.Cohortid, &player.Dob,
 		&player.Email, &player.HashedPassword, &player.LastLogin, &player.Name, &player.Order,
