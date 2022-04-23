@@ -180,4 +180,5 @@ type Query {
 	starsSimulation(playerid:ID!): StarsSimulation
 }
 
+
 scalar Time
